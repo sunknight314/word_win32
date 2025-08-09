@@ -1,0 +1,83 @@
+{"analysis_result": [
+        {
+          "paragraph_number": 1,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 2,
+          "type": "Heading1"
+        },
+        {
+          "paragraph_number": 3,
+          "type": "Heading2"
+        },
+        {
+          "paragraph_number": 4,
+          "type": "Heading3"
+        },
+        {
+          "paragraph_number": 5,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 6,
+          "type": "图片"
+        },
+        {
+          "paragraph_number": 7,
+          "type": "Heading2"
+        },
+        {
+          "paragraph_number": 8,
+          "type": "Heading3"
+        },
+        {
+          "paragraph_number": 9,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 10,
+          "type": "Heading3"
+        },
+        {
+          "paragraph_number": 11,
+          "type": "Heading1"
+        },
+        {
+          "paragraph_number": 12,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 13,
+          "type": "Heading1"
+        },
+        {
+          "paragraph_number": 14,
+          "type": "Heading2"
+        },
+        {
+          "paragraph_number": 15,
+          "type": "Heading2"
+        },
+        {
+          "paragraph_number": 16,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 17,
+          "type": "Heading2"
+        },
+        {
+          "paragraph_number": 18,
+          "type": "Heading3"
+        },
+        {
+          "paragraph_number": 19,
+          "type": "Normal"
+        },
+        {
+          "paragraph_number": 20,
+          "type": "Heading3"
+        }
+      ]
+}
