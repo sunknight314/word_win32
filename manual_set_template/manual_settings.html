@@ -123,9 +123,30 @@
   <label><input type="checkbox" id="link-sections"> 链接各节页眉页脚</label>
   
   <h3>页眉设置</h3>
-  <label id="header-primary-label" style="display: none;">页眉文本（奇数页）: <input type="text" id="header-text-primary"></label>
-  <label id="header-even-label" style="display: none;">页眉文本（偶数页）: <input type="text" id="header-text-even"></label>
-  <label id="header-unified-label">页眉文本: <input type="text" id="header-text-unified"></label>
+  <label id="header-primary-label" style="display: none;">
+    页眉文本（奇数页）:
+    <select class="header-text-primary-type">
+      <option value="chapter">章节号+章节标题</option>
+      <option value="fixed">固定文本</option>
+    </select>
+    <input type="text" class="header-text-primary-fixed" style="display: none;" placeholder="请输入固定文本">
+  </label>
+  <label id="header-even-label" style="display: none;">
+    页眉文本（偶数页）:
+    <select class="header-text-even-type">
+      <option value="chapter">章节号+章节标题</option>
+      <option value="fixed">固定文本</option>
+    </select>
+    <input type="text" class="header-text-even-fixed" style="display: none;" placeholder="请输入固定文本">
+  </label>
+  <label id="header-unified-label">
+    页眉文本:
+    <select class="header-text-unified-type">
+      <option value="chapter">章节号+章节标题</option>
+      <option value="fixed">固定文本</option>
+    </select>
+    <input type="text" class="header-text-unified-fixed" style="display: none;" placeholder="请输入固定文本">
+  </label>
   <label>页眉字体: <input type="text" id="header-font" value="宋体"></label>
   <label>页眉字号: <input type="number" id="header-size" value="12"></label>
   <label>页眉颜色: <input type="color" id="header-color" value="#000000"></label>
@@ -494,6 +515,44 @@
     oddEvenCheckbox.addEventListener("change", toggleEvenPageSettings);
   }
   
+  function initHeaderTextHandlers() {
+    // 奇数页页眉文本类型选择处理
+    const headerPrimaryType = document.querySelector(".header-text-primary-type");
+    const headerPrimaryFixed = document.querySelector(".header-text-primary-fixed");
+    
+    headerPrimaryType.addEventListener("change", function() {
+      if (this.value === "fixed") {
+        headerPrimaryFixed.style.display = "inline-block";
+      } else {
+        headerPrimaryFixed.style.display = "none";
+      }
+    });
+    
+    // 偶数页页眉文本类型选择处理
+    const headerEvenType = document.querySelector(".header-text-even-type");
+    const headerEvenFixed = document.querySelector(".header-text-even-fixed");
+    
+    headerEvenType.addEventListener("change", function() {
+      if (this.value === "fixed") {
+        headerEvenFixed.style.display = "inline-block";
+      } else {
+        headerEvenFixed.style.display = "none";
+      }
+    });
+    
+    // 统一设置页眉文本类型选择处理
+    const headerUnifiedType = document.querySelector(".header-text-unified-type");
+    const headerUnifiedFixed = document.querySelector(".header-text-unified-fixed");
+    
+    headerUnifiedType.addEventListener("change", function() {
+      if (this.value === "fixed") {
+        headerUnifiedFixed.style.display = "inline-block";
+      } else {
+        headerUnifiedFixed.style.display = "none";
+      }
+    });
+  }
+  
   function exportConfig() {
     const oddEvenPages = document.getElementById("OddAndEvenPagesHeaderFooter").checked;
     
@@ -525,15 +584,38 @@
     };
     // 根据是否启用奇偶页不同设置来决定如何导出页眉页脚文本
     if (oddEvenPages) {
-      config.header.primaryText = document.getElementById("header-text-primary").value;
-      config.header.evenText = document.getElementById("header-text-even").value;
+      // 奇数页页眉设置
+      const headerPrimaryType = document.querySelector(".header-text-primary-type").value;
+      if (headerPrimaryType === "chapter") {
+        config.header.primaryText = "chapter";
+      } else {
+        config.header.primaryText = document.querySelector(".header-text-primary-fixed").value;
+      }
+      
+      // 偶数页页眉设置
+      const headerEvenType = document.querySelector(".header-text-even-type").value;
+      if (headerEvenType === "chapter") {
+        config.header.evenText = "chapter";
+      } else {
+        config.header.evenText = document.querySelector(".header-text-even-fixed").value;
+      }
+      
       config.footer.primaryText = document.getElementById("footer-text-primary").value;
       config.footer.evenText = document.getElementById("footer-text-even").value;
     } else {
-      const unifiedHeaderText = document.getElementById("header-text-unified").value;
+      // 统一设置页眉
+      const headerUnifiedType = document.querySelector(".header-text-unified-type").value;
+      if (headerUnifiedType === "chapter") {
+        const unifiedHeaderText = "chapter";
+        config.header.primaryText = unifiedHeaderText;
+        config.header.evenText = unifiedHeaderText;
+      } else {
+        const unifiedHeaderText = document.querySelector(".header-text-unified-fixed").value;
+        config.header.primaryText = unifiedHeaderText;
+        config.header.evenText = unifiedHeaderText;
+      }
+      
       const unifiedFooterText = document.getElementById("footer-text-unified").value;
-      config.header.primaryText = unifiedHeaderText;
-      config.header.evenText = unifiedHeaderText;
       config.footer.primaryText = unifiedFooterText;
       config.footer.evenText = unifiedFooterText;
     }
@@ -549,6 +631,7 @@
   
   // 初始化奇偶页设置监听器
   handleOddEvenPagesSetting();
+  initHeaderTextHandlers();
   
   addHeading(defaultHeadingData1());
   addHeading(defaultHeadingData2());
