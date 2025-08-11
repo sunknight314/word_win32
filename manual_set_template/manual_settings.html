@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Word 模板设置器（可重排标题）</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9fb;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #2c3e50;
+    }
+    h2 {
+      font-size: 18px;
+      color: #34495e;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e0e0e0;
+      margin-top: 25px;
+    }
+    .section {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .heading-block {
+      border: 1px solid #e0e0e0;
+      background: #fdfdfd;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      transition: background 0.2s ease;
+    }
+    .heading-block:hover {
+      background: #f5faff;
+    }
+    label {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #555;
+    }
+    input, select {
+      margin-top: 3px;
+      padding: 5px 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: auto;
+      min-width: 120px;
+    }
+    input[type="color"] {
+      padding: 0;
+      height: 30px;
+      width: 50px;
+      border: none;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .controls {
+      margin-top: 12px;
+    }
+    button {
+      padding: 6px 14px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #2980b9, #1f6391);
+    }
+    .small {
+      font-size: 13px;
+      color: #888;
+    }
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: #2c3e50;
+    }
+    .remove-btn {
+      background: #e74c3c;
+      padding: 4px 10px;
+      font-size: 13px;
+      border-radius: 4px;
+      float: right;
+    }
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Word 模板格式设置器</h1>
+
+<div class="section">
+  <h2>标题样式（可添加 / 删除 / 重新编号）</h2>
+  <div id="heading-settings"></div>
+  <div class="controls">
+    <button id="add-heading-btn">添加一个标题样式</button>
+  </div>
+</div>
+
+<div class="section">
+  <h2>页眉页脚</h2>
+  
+  <h3>章节总设置</h3>
+  <label><input type="checkbox" id="OddAndEvenPagesHeaderFooter"> 奇偶页不同</label>
+  <label><input type="checkbox" id="link-sections"> 链接各节页眉页脚</label>
+  
+  <h3>页眉设置</h3>
+  <label id="header-primary-label" style="display: none;">页眉文本（奇数页）: <input type="text" id="header-text-primary"></label>
+  <label id="header-even-label" style="display: none;">页眉文本（偶数页）: <input type="text" id="header-text-even"></label>
+  <label id="header-unified-label">页眉文本: <input type="text" id="header-text-unified"></label>
+  <label>页眉字体: <input type="text" id="header-font" value="宋体"></label>
+  <label>页眉字号: <input type="number" id="header-size" value="12"></label>
+  <label>页眉颜色: <input type="color" id="header-color" value="#000000"></label>
+  <label><input type="checkbox" id="header-bold"> 加粗</label>
+  <label><input type="checkbox" id="header-italic"> 斜体</label>
+  <label>下边框线型:
+    <select id="header-border-style">
+      <option value="none">无</option>
+      <option value="double">双线</option>
+      <option value="single">单线</option>
+    </select>
+  </label>
+  
+  <h3>页脚设置</h3>
+  <label id="footer-primary-label" style="display: none;">页脚文本（奇数页）: <input type="text" id="footer-text-primary"></label>
+  <label id="footer-even-label" style="display: none;">页脚文本（偶数页）: <input type="text" id="footer-text-even"></label>
+  <label id="footer-unified-label">页脚文本: <input type="text" id="footer-text-unified"></label>
+  <label>显示页码:
+    <select id="page-number">
+      <option value="none">不显示</option>
+      <option value="top">页眉</option>
+      <option value="bottom">页脚</option>
+    </select>
+  </label>
+</div>
+
+<div class="section">
+  <h2>页面设置</h2>
+  <label>纸张大小:
+    <select id="page-size">
+      <option value="A4">A4</option>
+      <option value="A3">A3</option>
+      <option value="Letter">Letter</option>
+      <option value="custom">自定义</option>
+    </select>
+  </label>
+  <label>方向:
+    <select id="orientation">
+      <option value="portrait">纵向</option>
+      <option value="landscape">横向</option>
+    </select>
+  </label>
+  <label>页边距（上/下/左/右，毫米）:
+    <input type="number" id="margin-top" placeholder="上" style="width:80px">
+    <input type="number" id="margin-bottom" placeholder="下" style="width:80px">
+    <input type="number" id="margin-left" placeholder="左" style="width:80px">
+    <input type="number" id="margin-right" placeholder="右" style="width:80px">
+  </label>
+</div>
+
+<button id="export-btn">导出配置 JSON</button>
+
+<script>
+  let headings = [];
+  function defaultHeadingData1() {
+    return {
+      OutlineLevel: 1,
+      NumberFormat: "第%1章",
+      TrailingCharacter: 1,
+      NumberStyle: 37,
+      NumberPosition: 0,
+      Alignment: 0,
+      TextPosition: 0,
+      TabPosition: 9999999,
+      ResetOnHigher: 0,
+      StartAt: 1,
+      Font: {
+        NameFarEast: "黑体",
+        NameAscii: "Times New Roman",
+        NameOther: "Times New Roman",
+        Bold: false,
+        Size: 16,
+        Italic: false,
+        Underline: false,
+        Color: "#000000"
+      },
+      ParagraphFormat: {
+        RightIndent: 0,
+        SpaceBefore: 24,
+        SpaceAfter: 18,
+        LineSpacing: 20,
+      }
+    };
+  }
+  function defaultHeadingData2() {
+    return {
+      OutlineLevel: 2,
+      NumberFormat: "%1.%2",
+      TrailingCharacter: 1,
+      NumberStyle: 253,
+      NumberPosition: 0,
+      Alignment: 0,
+      TextPosition: 0,
+      TabPosition: 9999999,
+      ResetOnHigher: 1,
+      StartAt: 1,
+      Font: {
+        NameFarEast: "宋体",
+        NameAscii: "Times New Roman",
+        NameOther: "Times New Roman",
+        Bold: true,
+        Size: 15,
+        Italic: false,
+        Underline: false,
+        Color: "#000000"
+      },
+      ParagraphFormat: {
+        RightIndent: 0,
+        SpaceBefore: 18,
+        SpaceAfter: 12,
+        LineSpacing: 20,
+      }
+    };
+  }
+  function defaultHeadingData3() {
+    return {
+      OutlineLevel: 3,
+      NumberFormat: "%1.%2.%3",
+      TrailingCharacter: 1,
+      NumberStyle: 253,
+      NumberPosition: 28,
+      Alignment: 0,
+      TextPosition: 0,
+      TabPosition: 9999999,
+      ResetOnHigher: 2,
+      StartAt: 1,
+      Font: {
+        NameFarEast: "宋体",
+        NameAscii: "Times New Roman",
+        NameOther: "Times New Roman",
+        Bold: true,
+        Size: 14,
+        Italic: false,
+        Underline: false,
+        Color: "#000000"
+      },
+      ParagraphFormat: {
+        RightIndent: 0,
+        SpaceBefore: 12,
+        SpaceAfter: 6,
+        LineSpacing: 20,
+      }
+    }
+  }
+  function addHeading(data) {
+    headings.push(data || defaultHeadingData());
+    renderHeadings();
+  }
+  function removeHeading(index) {
+    if (index >= 0 && index < headings.length) {
+      headings.splice(index, 1);
+      renderHeadings();
+    }
+  }
+  function renderHeadings() {
+    const container = document.getElementById("heading-settings");
+    container.innerHTML = "";
+    headings.forEach((h, idx) => {
+      const block = document.createElement("div");
+      block.className = "heading-block";
+      block.innerHTML = `
+        <h3>标题 ${idx + 1}
+        <button class="remove-btn" style="float:right">删除</button></h3>
+        <span>大纲等级：<select class="h-OutlineLevel">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+        </select></span>
+        <label>编号格式: <input type="text" class="h-NumberFormat" value="第%1章"></label>
+        <label>编号后分隔符：<select class="h-TrailingCharacter">
+          <option value="0">制表符</option>
+          <option value="1" selected>空格（默认）</option>
+          <option value="2">无</option>
+        </select></label>
+        <label>编号样式: <select class="h-NumberStyle">
+          <option value="0">阿拉伯数字（1, 2, 3）</option>
+          <option value="1">大写罗马数字（I, II, III）</option>
+          <option value="2">小写罗马数字（i, ii, iii）</option>
+          <option value="37" selected>简体中文数字 1（一、二）</option>
+          <option value="38">简体中文数字 2</option>
+          <option value="39">简体中文数字 3（壹、贰）</option>
+          <option value="40">简体中文数字 4</option>
+          <option value="23">项目符号（•, ）</option>
+          <option value="18">带圈数字（①, ②）</option>
+          <option value="249">图片项目符号</option>
+          <option value="253">正规样式（1., 1.1）</option>
+          <option value="254">正规 LZ 样式（01., 001.）</option>
+        </select></label>
+        <label>编号位置: <input type="number" class="h-NumberPosition" value="0"></label>
+        <label>对齐方式: <select class="h-Alignment">
+          <option value="0">左对齐</option>
+          <option value="1">居中对齐</option>
+          <option value="2">右对齐</option>
+        </select></label>
+        <label>文本位置: <input type="number" class="h-TextPosition" value="0"></label>
+        <label>制表位位置: <input type="number" class="h-TabPosition" value="9999999"></label>
+        <label>高级别重置: <input type="number" class="h-ResetOnHigher" value="0"></label>
+        <label>起始编号: <input type="number" class="h-StartAt" value="1"></label>
+        <hr>
+        <h4>字体设置</h4>
+        <label>东方字体: <select class="h-FontNameFarEast">
+          <option value="黑体">黑体</option>
+          <option value="宋体" selected>宋体</option>
+          <option value="微软雅黑">微软雅黑</option>
+          <option value="楷体">楷体</option>
+          <option value="仿宋">仿宋</option>
+          <option value="华文黑体">华文黑体</option>
+          <option value="华文宋体">华文宋体</option>
+          <option value="华文楷体">华文楷体</option>
+          <option value="华文仿宋">华文仿宋</option>
+          <option value="方正姚体">方正姚体</option>
+          <option value="方正舒体">方正舒体</option>
+        </select></label>
+        <label>Ascii字体: <select class="h-FontNameAscii">
+          <option value="Times New Roman" selected>Times New Roman</option>
+          <option value="Arial">Arial</option>
+          <option value="Calibri">Calibri</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Candara">Candara</option>
+          <option value="Consolas">Consolas</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Helvetica">Helvetica</option>
+          <option value="Impact">Impact</option>
+          <option value="Lucida Console">Lucida Console</option>
+          <option value="Tahoma">Tahoma</option>
+          <option value="Trebuchet MS">Trebuchet MS</option>
+          <option value="Verdana">Verdana</option>
+        </select></label>
+        <label>其他字体: <select class="h-FontNameOther">
+          <option value="Times New Roman" selected>Times New Roman</option>
+          <option value="Arial">Arial</option>
+          <option value="Calibri">Calibri</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Candara">Candara</option>
+          <option value="Consolas">Consolas</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Helvetica">Helvetica</option>
+          <option value="Impact">Impact</option>
+          <option value="Lucida Console">Lucida Console</option>
+          <option value="Tahoma">Tahoma</option>
+          <option value="Trebuchet MS">Trebuchet MS</option>
+          <option value="Verdana">Verdana</option>
+        </select></label>
+        <label>大小(磅): <input type="number" class="h-FontSize" value="16" min="1"></label>
+        <label>颜色: <input type="color" class="h-FontColor" value="#000000"></label>
+        <label><input type="checkbox" class="h-FontBold"> 加粗</label>
+        <label><input type="checkbox" class="h-FontItalic"> 斜体</label>
+        <label><input type="checkbox" class="h-FontUnderline"> 下划线</label>
+        <hr>
+        <h4>段落格式</h4>
+        <label>右缩进: <input type="number" class="h-RightIndent" value="0"></label>
+        <label>段前间距（磅）: <input type="number" class="h-SpaceBefore" value="24" step="1"></label>
+        <label>段后间距（磅）: <input type="number" class="h-SpaceAfter" value="18" step="1"></label>
+        <label>行距: <input type="number" class="h-LineSpacing" value="20" step="0.1"></label>
+      `;
+      container.appendChild(block);
+
+      // 设置基本属性
+      block.querySelector(".h-OutlineLevel").value = h.OutlineLevel;
+      block.querySelector(".h-NumberFormat").value = h.NumberFormat;
+      block.querySelector(".h-NumberStyle").value = h.NumberStyle;
+      block.querySelector(".h-NumberPosition").value = h.NumberPosition;
+      block.querySelector(".h-Alignment").value = h.Alignment;
+      block.querySelector(".h-TextPosition").value = h.TextPosition;
+      block.querySelector(".h-TabPosition").value = h.TabPosition;
+      block.querySelector(".h-ResetOnHigher").value = h.ResetOnHigher;
+      block.querySelector(".h-StartAt").value = h.StartAt;
+      block.querySelector(".h-TrailingCharacter").value = h.TrailingCharacter;
+
+      // 设置字体属性
+      block.querySelector(".h-FontNameFarEast").value = h.Font.NameFarEast;
+      block.querySelector(".h-FontNameAscii").value = h.Font.NameAscii;
+      block.querySelector(".h-FontNameOther").value = h.Font.NameOther;
+      block.querySelector(".h-FontSize").value = h.Font.Size;
+      block.querySelector(".h-FontColor").value = h.Font.Color;
+      block.querySelector(".h-FontBold").checked = h.Font.Bold;
+      block.querySelector(".h-FontItalic").checked = h.Font.Italic;
+      block.querySelector(".h-FontUnderline").checked = h.Font.Underline;
+      
+      // 添加东方字体选择框的 change 事件监听器
+      block.querySelector(".h-FontNameFarEast").addEventListener("change", e => {
+        headings[idx].Font.NameFarEast = e.target.value;
+      });
+
+      // 设置段落格式
+      block.querySelector(".h-RightIndent").value = h.ParagraphFormat.RightIndent;
+      block.querySelector(".h-SpaceBefore").value = h.ParagraphFormat.SpaceBefore;
+      block.querySelector(".h-SpaceAfter").value = h.ParagraphFormat.SpaceAfter;
+      block.querySelector(".h-LineSpacing").value = h.ParagraphFormat.LineSpacing;
+
+      // 添加事件监听器
+      block.querySelector(".h-OutlineLevel").addEventListener("change", e => headings[idx].OutlineLevel = parseInt(e.target.value));
+      block.querySelector(".h-NumberFormat").addEventListener("input", e => headings[idx].NumberFormat = e.target.value);
+      block.querySelector(".h-NumberStyle").addEventListener("input", e => headings[idx].NumberStyle = parseInt(e.target.value));
+      block.querySelector(".h-NumberPosition").addEventListener("input", e => headings[idx].NumberPosition = parseInt(e.target.value));
+      block.querySelector(".h-Alignment").addEventListener("input", e => headings[idx].Alignment = parseInt(e.target.value));
+      block.querySelector(".h-TextPosition").addEventListener("input", e => headings[idx].TextPosition = parseInt(e.target.value));
+      block.querySelector(".h-TabPosition").addEventListener("input", e => headings[idx].TabPosition = parseInt(e.target.value));
+      block.querySelector(".h-ResetOnHigher").addEventListener("input", e => headings[idx].ResetOnHigher = parseInt(e.target.value));
+      block.querySelector(".h-StartAt").addEventListener("input", e => headings[idx].StartAt = parseInt(e.target.value));
+      block.querySelector(".h-TrailingCharacter").addEventListener("change", e => headings[idx].TrailingCharacter = parseInt(e.target.value));
+      block.querySelector(".h-NumberStyle").addEventListener("change", e => headings[idx].NumberStyle = parseInt(e.target.value));
+      block.querySelector(".h-Alignment").addEventListener("change", e => headings[idx].Alignment = parseInt(e.target.value));
+
+      // 字体事件监听器
+      block.querySelector(".h-FontNameFarEast").addEventListener("input", e => headings[idx].Font.NameFarEast = e.target.value);
+      block.querySelector(".h-FontNameAscii").addEventListener("input", e => headings[idx].Font.NameAscii = e.target.value);
+      block.querySelector(".h-FontNameOther").addEventListener("input", e => headings[idx].Font.NameOther = e.target.value);
+      block.querySelector(".h-FontSize").addEventListener("input", e => headings[idx].Font.Size = parseInt(e.target.value));
+      block.querySelector(".h-FontColor").addEventListener("input", e => headings[idx].Font.Color = e.target.value);
+      block.querySelector(".h-FontBold").addEventListener("change", e => headings[idx].Font.Bold = e.target.checked);
+      block.querySelector(".h-FontItalic").addEventListener("change", e => headings[idx].Font.Italic = e.target.checked);
+      block.querySelector(".h-FontUnderline").addEventListener("change", e => headings[idx].Font.Underline = e.target.checked);
+      
+      // 确保东方字体选择框的 change 事件监听器存在
+      block.querySelector(".h-FontNameFarEast").addEventListener("change", e => headings[idx].Font.NameFarEast = e.target.value);
+      block.querySelector(".h-FontNameAscii").addEventListener("change", e => headings[idx].Font.NameAscii = e.target.value);
+      block.querySelector(".h-FontNameOther").addEventListener("change", e => headings[idx].Font.NameOther = e.target.value);
+
+      // 段落格式事件监听器
+      block.querySelector(".h-RightIndent").addEventListener("input", e => headings[idx].ParagraphFormat.RightIndent = parseInt(e.target.value));
+      block.querySelector(".h-SpaceBefore").addEventListener("input", e => headings[idx].ParagraphFormat.SpaceBefore = parseInt(e.target.value));
+      block.querySelector(".h-SpaceAfter").addEventListener("input", e => headings[idx].ParagraphFormat.SpaceAfter = parseInt(e.target.value));
+      block.querySelector(".h-LineSpacing").addEventListener("input", e => headings[idx].ParagraphFormat.LineSpacing = parseFloat(e.target.value));
+
+      block.querySelector(".remove-btn").addEventListener("click", () => removeHeading(idx));
+    });
+  }
+  function handleOddEvenPagesSetting() {
+    const oddEvenCheckbox = document.getElementById("OddAndEvenPagesHeaderFooter");
+    const headerPrimaryLabel = document.getElementById("header-primary-label");
+    const headerEvenLabel = document.getElementById("header-even-label");
+    const headerUnifiedLabel = document.getElementById("header-unified-label");
+    const footerPrimaryLabel = document.getElementById("footer-primary-label");
+    const footerEvenLabel = document.getElementById("footer-even-label");
+    const footerUnifiedLabel = document.getElementById("footer-unified-label");
+    
+    function toggleEvenPageSettings() {
+      if (oddEvenCheckbox.checked) {
+        // 显示奇偶页分别设置
+        headerPrimaryLabel.style.display = "block";
+        headerEvenLabel.style.display = "block";
+        headerUnifiedLabel.style.display = "none";
+        footerPrimaryLabel.style.display = "block";
+        footerEvenLabel.style.display = "block";
+        footerUnifiedLabel.style.display = "none";
+      } else {
+        // 显示统一设置
+        headerPrimaryLabel.style.display = "none";
+        headerEvenLabel.style.display = "none";
+        headerUnifiedLabel.style.display = "block";
+        footerPrimaryLabel.style.display = "none";
+        footerEvenLabel.style.display = "none";
+        footerUnifiedLabel.style.display = "block";
+      }
+    }
+    
+    // 初始设置
+    toggleEvenPageSettings();
+    
+    // 添加事件监听器
+    oddEvenCheckbox.addEventListener("change", toggleEvenPageSettings);
+  }
+  
+  function exportConfig() {
+    const oddEvenPages = document.getElementById("OddAndEvenPagesHeaderFooter").checked;
+    
+    const config = {
+      headings: headings,
+      header: {
+        font: document.getElementById("header-font").value,
+        size: parseInt(document.getElementById("header-size").value),
+        color: document.getElementById("header-color").value,
+        bold: document.getElementById("header-bold").checked,
+        italic: document.getElementById("header-italic").checked,
+        borderStyle: document.getElementById("header-border-style").value
+      },
+      footer: {
+        pageNumber: document.getElementById("page-number").value
+      },
+      section: {
+        differentOddEven: oddEvenPages,
+        linkSections: document.getElementById("link-sections").checked
+      },
+      pageSize: document.getElementById("page-size").value,
+      orientation: document.getElementById("orientation").value,
+      margins: {
+        top: document.getElementById("margin-top").value,
+        bottom: document.getElementById("margin-bottom").value,
+        left: document.getElementById("margin-left").value,
+        right: document.getElementById("margin-right").value
+      }
+    };
+    // 根据是否启用奇偶页不同设置来决定如何导出页眉页脚文本
+    if (oddEvenPages) {
+      config.header.primaryText = document.getElementById("header-text-primary").value;
+      config.header.evenText = document.getElementById("header-text-even").value;
+      config.footer.primaryText = document.getElementById("footer-text-primary").value;
+      config.footer.evenText = document.getElementById("footer-text-even").value;
+    } else {
+      const unifiedHeaderText = document.getElementById("header-text-unified").value;
+      const unifiedFooterText = document.getElementById("footer-text-unified").value;
+      config.header.primaryText = unifiedHeaderText;
+      config.header.evenText = unifiedHeaderText;
+      config.footer.primaryText = unifiedFooterText;
+      config.footer.evenText = unifiedFooterText;
+    }
+    
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "word_template_config.json";
+    link.click();
+  }
+  document.getElementById("add-heading-btn").addEventListener("click", () => addHeading());
+  document.getElementById("export-btn").addEventListener("click", exportConfig);
+  
+  // 初始化奇偶页设置监听器
+  handleOddEvenPagesSetting();
+  
+  addHeading(defaultHeadingData1());
+  addHeading(defaultHeadingData2());
+  addHeading(defaultHeadingData3());
+</script>
+</body>
+</html>
