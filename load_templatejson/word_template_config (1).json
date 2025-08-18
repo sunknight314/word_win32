@@ -16,7 +16,7 @@
         "NameAscii": "Times New Roman",
         "NameOther": "Times New Roman",
         "Bold": false,
-        "Size": 30,
+        "Size": 16,
         "Italic": false,
         "Underline": false,
         "Color": "#000000"
@@ -85,9 +85,27 @@
       }
     }
   ],
-  "header": "",
-  "footer": "",
-  "pageNumber": "none",
+  "header": {
+    "font": "宋体",
+    "size": 25,
+    "color": "#000000",
+    "bold": false,
+    "italic": false,
+    "borderStyle": "7",
+    "borderWidth": 4,
+    "primaryText": "chapter",
+    "evenText": "西安电子科技大学"
+  },
+  "footer": {
+    "pageNumber": "none",
+    "primaryText": "",
+    "evenText": ""
+  },
+  "section": {
+    "differentOddEven": true,
+    "linkSections": false,
+    "breakType": 5
+  },
   "pageSize": "A4",
   "orientation": "portrait",
   "margins": {

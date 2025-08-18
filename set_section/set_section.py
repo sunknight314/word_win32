@@ -73,41 +73,65 @@ def configure_document_headers(doc):
     # 4. 刷新所有域代码
     doc.Fields.Update()
 
-def configure_document_footers(doc):
-    """配置文档页脚（可选）"""
-    # 奇数页页码
-    footer = doc.Sections(1).Footers(WdHeaderFooterIndex.wdHeaderFooterPrimary)
-    footer_rng = footer.Range
-    doc.Fields.Add(footer_rng,WdFieldType.wdFieldPage)
-
-    footer_range = footer.Range
-    footer_range.Font.NameFarEast = "宋体"  # 设置字体为宋体
-    footer_range.Font.NameAscii = "Times New Roman"
-    footer_range.Font.NameOther = "Times New Roman"
-    footer_range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter  # 居中对齐
-    footer_range.Font.Size = 12  # 设置字号为12
-
-
-    # 偶数页页码
-    footer = doc.Sections(1).Footers(WdHeaderFooterIndex.wdHeaderFooterEvenPages)
-    footer_rng = footer.Range
-    doc.Fields.Add(footer_rng, WdFieldType.wdFieldPage)
-
-    footer_range = footer.Range
-    footer_range.Font.NameFarEast = "宋体"  # 设置字体为宋体
-    footer_range.Font.NameAscii = "Times New Roman"
-    footer_range.Font.NameOther = "Times New Roman"
-    footer_range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter  # 居中对齐
-    footer_range.Font.Size = 12  # 设置字号为12
+def configure_document_footers(doc, front_sections_count=1):
+    """
+    配置文档页脚：
+    - 前序部分使用罗马数字，从1开始连续
+    - 正文部分使用阿拉伯数字，从1开始，后续节连续
+    front_sections_count: 前序部分节数
+    """
 
     sections = doc.Sections
-    for section_idx in range(2, sections.Count + 1):
-        current_section = sections(section_idx)
-        # 连接主/偶数页眉到前一节
-        current_section.Footers(WdHeaderFooterIndex.wdHeaderFooterPrimary).LinkToPrevious = True
-        current_section.Footers(WdHeaderFooterIndex.wdHeaderFooterEvenPages).LinkToPrevious = True
+    for section_idx in range(1, sections.Count + 1):
+        section = sections(section_idx)
 
-    # 4. 刷新所有域代码
+        # 解除与前一节的页脚链接
+        for hf_idx in [WdHeaderFooterIndex.wdHeaderFooterPrimary,
+                       WdHeaderFooterIndex.wdHeaderFooterEvenPages,
+                       WdHeaderFooterIndex.wdHeaderFooterFirstPage]:
+            section.Footers(hf_idx).LinkToPrevious = False
+
+        # 判断该节页码类型
+        if section_idx <= front_sections_count:
+            style = WdPageNumberStyle.wdPageNumberStyleUppercaseRoman
+            # 前序节第一节从1开始，其余节连续编号
+            restart = True if section_idx == 1 else False
+            start_num = 1 if section_idx == 1 else None
+        else:
+            style = WdPageNumberStyle.wdPageNumberStyleArabic
+            # 正文第一节从1开始，其余节连续编号
+            restart = True if section_idx == front_sections_count + 1 else False
+            start_num = 1 if section_idx == front_sections_count + 1 else None
+
+        # 奇偶页页脚统一页码
+        for hf_idx in [WdHeaderFooterIndex.wdHeaderFooterPrimary,
+                       WdHeaderFooterIndex.wdHeaderFooterEvenPages]:
+            footer = section.Footers(hf_idx)
+
+            # 删除旧页码
+            while footer.PageNumbers.Count > 0:
+                footer.PageNumbers(1).Delete()
+
+            # 添加新页码
+            pnums = footer.PageNumbers
+            pnums.Add(
+                PageNumberAlignment=WdPageNumberAlignment.wdAlignPageNumberCenter,
+                FirstPage=True,
+            )
+            pnums.NumberStyle = style
+            pnums.RestartNumberingAtSection = restart
+            if start_num is not None:
+                pnums.StartingNumber = start_num
+
+            # 设置字体和对齐
+            footer_range = footer.Range
+            footer_range.Font.NameFarEast = "宋体"
+            footer_range.Font.NameAscii = "Times New Roman"
+            footer_range.Font.NameOther = "Times New Roman"
+            footer_range.Font.Size = 12
+            footer_range.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter
+
+    # 刷新所有域
     doc.Fields.Update()
 
 

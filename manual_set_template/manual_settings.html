@@ -121,6 +121,20 @@
   <h3>章节总设置</h3>
   <label><input type="checkbox" id="OddAndEvenPagesHeaderFooter"> 奇偶页不同</label>
   <label><input type="checkbox" id="link-sections"> 链接各节页眉页脚</label>
+  <label>分节符类型:
+    <select id="section-break-type">
+      <option value="2">分节符在下一页</option>
+      <option value="3">新节不包含相应分页符</option>
+      <option value="4">下一节从下一偶数页开始</option>
+      <option value="5">下一节从下一奇数页开始</option>
+      <option value="6">换行符</option>
+      <option value="7">插入点处的分页符</option>
+      <option value="8">插入点处的分栏符</option>
+      <option value="9">换行符(清除左)</option>
+      <option value="10">换行符(清除右)</option>
+      <option value="11">文字在图片或表格下方继续</option>
+    </select>
+  </label>
   
   <h3>页眉设置</h3>
   <label id="header-primary-label" style="display: none;">
@@ -154,21 +168,124 @@
   <label><input type="checkbox" id="header-italic"> 斜体</label>
   <label>下边框线型:
     <select id="header-border-style">
-      <option value="none">无</option>
-      <option value="double">双线</option>
-      <option value="single">单线</option>
+      <option value="0">无边框</option>
+      <option value="1">单实线</option>
+      <option value="2">点</option>
+      <option value="3">划线-小间隙</option>
+      <option value="4">划线-大间隙</option>
+      <option value="5">划线-点</option>
+      <option value="6">划线-两点</option>
+      <option value="7">双实线</option>
+      <option value="8">三条细实线</option>
+      <option value="9">细粗线-小间隙(内细外粗)</option>
+      <option value="10">细粗线-小间隙(内粗外细)</option>
+      <option value="11">细粗细线-小间隙</option>
+      <option value="12">细粗线-中等间隙(内细外粗)</option>
+      <option value="13">细粗线-中等间隙(内粗外细)</option>
+      <option value="14">细粗细线-中等间隙</option>
+      <option value="15">细粗线-大间隙(内细外粗)</option>
+      <option value="16">细粗线-大间隙(内粗外细)</option>
+      <option value="17">细粗细线-大间隙</option>
+      <option value="18">波浪型单实线</option>
+      <option value="19">波浪型双实线</option>
+      <option value="20">划线-粗点</option>
+      <option value="21">三维阳文效果</option>
+      <option value="22">三维阴文效果</option>
+      <option value="23">凸起效果</option>
+      <option value="24">凹进效果</option>
+    </select>
+  </label>
+  <label>下边框线宽:
+    <select id="header-border-width">
+      <option value="2">0.25 磅</option>
+      <option value="4">0.50 磅</option>
+      <option value="6">0.75 磅</option>
+      <option value="8" selected>1.00 磅（默认）</option>
+      <option value="12">1.50 磅</option>
+      <option value="18">2.25 磅</option>
+      <option value="24">3.00 磅</option>
+      <option value="36">4.50 磅</option>
+      <option value="48">6.00 磅</option>
     </select>
   </label>
   
   <h3>页脚设置</h3>
-  <label id="footer-primary-label" style="display: none;">页脚文本（奇数页）: <input type="text" id="footer-text-primary"></label>
-  <label id="footer-even-label" style="display: none;">页脚文本（偶数页）: <input type="text" id="footer-text-even"></label>
-  <label id="footer-unified-label">页脚文本: <input type="text" id="footer-text-unified"></label>
-  <label>显示页码:
-    <select id="page-number">
-      <option value="none">不显示</option>
-      <option value="top">页眉</option>
-      <option value="bottom">页脚</option>
+  <!-- 添加页码格式设置 -->
+  <h4>页码格式设置</h4>
+  
+  <h5>前序部分页码格式</h5>
+  <label>前序页码样式:
+    <select id="preface-page-number-style">
+      <option value="0">阿拉伯数字 (0, 1, 2, ...)</option>
+      <option value="1">大写罗马数字 (I, II, III, ...)</option>
+    </select>
+  </label>
+  <label>前序页码对齐方式:
+    <select id="preface-page-number-align">
+      <option value="0">左对齐</option>
+      <option value="1" selected>居中</option>
+      <option value="2">右对齐</option>
+      <option value="3">内部左对齐</option>
+      <option value="4">外部右对齐</option>
+    </select>
+  </label>
+  
+  <h5>正文部分页码格式</h5>
+  <label>正文从第几节开始:
+    <input type="number" id="main-section-start" value="1" min="1">
+  </label>
+  <label>正文页码样式:
+    <select id="main-page-number-style">
+      <option value="0" selected>阿拉伯数字 (0, 1, 2, ...)</option>
+      <option value="1">大写罗马数字 (I, II, III, ...)</option>
+    </select>
+  </label>
+  <label>正文页码对齐方式:
+    <select id="main-page-number-align">
+      <option value="0">左对齐</option>
+      <option value="1" selected>居中</option>
+      <option value="2">右对齐</option>
+      <option value="3">内部左对齐</option>
+      <option value="4">外部右对齐</option>
+    </select>
+  </label>
+  
+  <h4>页码字体格式</h4>
+  <label>东方字体: 
+    <select id="page-number-font-fareast">
+      <option value="黑体">黑体</option>
+      <option value="宋体" selected>宋体</option>
+      <option value="微软雅黑">微软雅黑</option>
+    </select>
+  </label>
+  <label>Ascii字体: 
+    <select id="page-number-font-ascii">
+      <option value="Times New Roman" selected>Times New Roman</option>
+      <option value="Arial">Arial</option>
+      <option value="Calibri">Calibri</option>
+      <option value="Cambria">Cambria</option>
+      <option value="Candara">Candara</option>
+      <option value="Consolas">Consolas</option>
+      <option value="Comic Sans MS">Comic Sans MS</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Helvetica">Helvetica</option>
+      <option value="Impact">Impact</option>
+      <option value="Lucida Console">Lucida Console</option>
+      <option value="Tahoma">Tahoma</option>
+      <option value="Trebuchet MS">Trebuchet MS</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+  </label>
+  <label>字体大小: <input type="number" id="page-number-font-size" value="12" min="1"></label>
+  <label>颜色: <input type="color" id="page-number-font-color" value="#000000"></label>
+  
+  <h4>页码段落格式</h4>
+  <label>对齐方式:
+    <select id="page-number-paragraph-align">
+      <option value="0">左对齐</option>
+      <option value="1" selected>居中</option>
+      <option value="2">右对齐</option>
     </select>
   </label>
 </div>
@@ -200,7 +317,7 @@
 <button id="export-btn">导出配置 JSON</button>
 
 <script>
-  let headings = [];
+  // --- 默认数据（保留你原有三个默认函数） ---
   function defaultHeadingData1() {
     return {
       OutlineLevel: 1,
@@ -291,194 +408,180 @@
       }
     }
   }
+
+  // --- 通用默认工厂：避免引用不存在的 defaultHeadingData() ---
+  function defaultHeadingData(indexForDefault) {
+    // indexForDefault optional: 若提供则返回对应级别默认，否则根据已有 headings 长度决定
+    if (typeof indexForDefault === "number") {
+      if (indexForDefault === 1) return defaultHeadingData1();
+      if (indexForDefault === 2) return defaultHeadingData2();
+      return defaultHeadingData3();
+    }
+    // 根据已有 headings 数量选择默认
+    if (headings.length === 0) return defaultHeadingData1();
+    if (headings.length === 1) return defaultHeadingData2();
+    return defaultHeadingData3();
+  }
+
+  // --- 状态与渲染 ---
+  let headings = [];
+
   function addHeading(data) {
+    // 如果没有传 data，就使用通用默认
     headings.push(data || defaultHeadingData());
     renderHeadings();
   }
+
   function removeHeading(index) {
     if (index >= 0 && index < headings.length) {
       headings.splice(index, 1);
       renderHeadings();
     }
   }
+
   function renderHeadings() {
     const container = document.getElementById("heading-settings");
     container.innerHTML = "";
     headings.forEach((h, idx) => {
       const block = document.createElement("div");
       block.className = "heading-block";
+
+      // 使用模板字符串，但不要在这里写死值；渲染后赋值
       block.innerHTML = `
         <h3>标题 ${idx + 1}
-        <button class="remove-btn" style="float:right">删除</button></h3>
+          <button class="remove-btn" style="float:right">删除</button>
+        </h3>
         <span>大纲等级：<select class="h-OutlineLevel">
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
           <option value="4">4</option><option value="5">5</option><option value="6">6</option>
           <option value="7">7</option><option value="8">8</option><option value="9">9</option>
         </select></span>
-        <label>编号格式: <input type="text" class="h-NumberFormat" value="第%1章"></label>
+        <label>编号格式: <input type="text" class="h-NumberFormat"></label>
         <label>编号后分隔符：<select class="h-TrailingCharacter">
           <option value="0">制表符</option>
-          <option value="1" selected>空格（默认）</option>
+          <option value="1">空格</option>
           <option value="2">无</option>
         </select></label>
         <label>编号样式: <select class="h-NumberStyle">
           <option value="0">阿拉伯数字（1, 2, 3）</option>
           <option value="1">大写罗马数字（I, II, III）</option>
           <option value="2">小写罗马数字（i, ii, iii）</option>
-          <option value="37" selected>简体中文数字 1（一、二）</option>
+          <option value="37">简体中文数字 1</option>
           <option value="38">简体中文数字 2</option>
-          <option value="39">简体中文数字 3（壹、贰）</option>
+          <option value="39">简体中文数字 3</option>
           <option value="40">简体中文数字 4</option>
-          <option value="23">项目符号（•, ）</option>
-          <option value="18">带圈数字（①, ②）</option>
+          <option value="23">项目符号（•）</option>
+          <option value="18">带圈数字（①）</option>
           <option value="249">图片项目符号</option>
           <option value="253">正规样式（1., 1.1）</option>
           <option value="254">正规 LZ 样式（01., 001.）</option>
         </select></label>
-        <label>编号位置: <input type="number" class="h-NumberPosition" value="0"></label>
+        <label>编号位置: <input type="number" class="h-NumberPosition"></label>
         <label>对齐方式: <select class="h-Alignment">
           <option value="0">左对齐</option>
           <option value="1">居中对齐</option>
           <option value="2">右对齐</option>
         </select></label>
-        <label>文本位置: <input type="number" class="h-TextPosition" value="0"></label>
-        <label>制表位位置: <input type="number" class="h-TabPosition" value="9999999"></label>
-        <label>高级别重置: <input type="number" class="h-ResetOnHigher" value="0"></label>
-        <label>起始编号: <input type="number" class="h-StartAt" value="1"></label>
+        <label>文本位置: <input type="number" class="h-TextPosition"></label>
+        <label>制表位位置: <input type="number" class="h-TabPosition"></label>
+        <label>高级别重置: <input type="number" class="h-ResetOnHigher"></label>
+        <label>起始编号: <input type="number" class="h-StartAt"></label>
         <hr>
         <h4>字体设置</h4>
         <label>东方字体: <select class="h-FontNameFarEast">
           <option value="黑体">黑体</option>
-          <option value="宋体" selected>宋体</option>
+          <option value="宋体">宋体</option>
           <option value="微软雅黑">微软雅黑</option>
           <option value="楷体">楷体</option>
           <option value="仿宋">仿宋</option>
-          <option value="华文黑体">华文黑体</option>
-          <option value="华文宋体">华文宋体</option>
-          <option value="华文楷体">华文楷体</option>
-          <option value="华文仿宋">华文仿宋</option>
-          <option value="方正姚体">方正姚体</option>
-          <option value="方正舒体">方正舒体</option>
         </select></label>
         <label>Ascii字体: <select class="h-FontNameAscii">
-          <option value="Times New Roman" selected>Times New Roman</option>
+          <option value="Times New Roman">Times New Roman</option>
           <option value="Arial">Arial</option>
           <option value="Calibri">Calibri</option>
-          <option value="Cambria">Cambria</option>
-          <option value="Candara">Candara</option>
           <option value="Consolas">Consolas</option>
-          <option value="Comic Sans MS">Comic Sans MS</option>
           <option value="Courier New">Courier New</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Helvetica">Helvetica</option>
-          <option value="Impact">Impact</option>
-          <option value="Lucida Console">Lucida Console</option>
-          <option value="Tahoma">Tahoma</option>
-          <option value="Trebuchet MS">Trebuchet MS</option>
-          <option value="Verdana">Verdana</option>
         </select></label>
         <label>其他字体: <select class="h-FontNameOther">
-          <option value="Times New Roman" selected>Times New Roman</option>
+          <option value="Times New Roman">Times New Roman</option>
           <option value="Arial">Arial</option>
           <option value="Calibri">Calibri</option>
-          <option value="Cambria">Cambria</option>
-          <option value="Candara">Candara</option>
-          <option value="Consolas">Consolas</option>
-          <option value="Comic Sans MS">Comic Sans MS</option>
-          <option value="Courier New">Courier New</option>
-          <option value="Georgia">Georgia</option>
-          <option value="Helvetica">Helvetica</option>
-          <option value="Impact">Impact</option>
-          <option value="Lucida Console">Lucida Console</option>
-          <option value="Tahoma">Tahoma</option>
-          <option value="Trebuchet MS">Trebuchet MS</option>
-          <option value="Verdana">Verdana</option>
         </select></label>
-        <label>大小(磅): <input type="number" class="h-FontSize" value="16" min="1"></label>
-        <label>颜色: <input type="color" class="h-FontColor" value="#000000"></label>
+        <label>大小(磅): <input type="number" class="h-FontSize" min="1"></label>
+        <label>颜色: <input type="color" class="h-FontColor"></label>
         <label><input type="checkbox" class="h-FontBold"> 加粗</label>
         <label><input type="checkbox" class="h-FontItalic"> 斜体</label>
         <label><input type="checkbox" class="h-FontUnderline"> 下划线</label>
         <hr>
         <h4>段落格式</h4>
-        <label>右缩进: <input type="number" class="h-RightIndent" value="0"></label>
-        <label>段前间距（磅）: <input type="number" class="h-SpaceBefore" value="24" step="1"></label>
-        <label>段后间距（磅）: <input type="number" class="h-SpaceAfter" value="18" step="1"></label>
-        <label>行距: <input type="number" class="h-LineSpacing" value="20" step="0.1"></label>
+        <label>右缩进: <input type="number" class="h-RightIndent"></label>
+        <label>段前间距（磅）: <input type="number" class="h-SpaceBefore" step="1"></label>
+        <label>段后间距（磅）: <input type="number" class="h-SpaceAfter" step="1"></label>
+        <label>行距: <input type="number" class="h-LineSpacing" step="0.1"></label>
       `;
+
       container.appendChild(block);
 
-      // 设置基本属性
-      block.querySelector(".h-OutlineLevel").value = h.OutlineLevel;
-      block.querySelector(".h-NumberFormat").value = h.NumberFormat;
-      block.querySelector(".h-NumberStyle").value = h.NumberStyle;
-      block.querySelector(".h-NumberPosition").value = h.NumberPosition;
-      block.querySelector(".h-Alignment").value = h.Alignment;
-      block.querySelector(".h-TextPosition").value = h.TextPosition;
-      block.querySelector(".h-TabPosition").value = h.TabPosition;
-      block.querySelector(".h-ResetOnHigher").value = h.ResetOnHigher;
-      block.querySelector(".h-StartAt").value = h.StartAt;
-      block.querySelector(".h-TrailingCharacter").value = h.TrailingCharacter;
+      // 赋初始值（从数据对象）
+      const setIf = (sel, val) => { const el = block.querySelector(sel); if (!el) return; el.value = val; };
+      setIf(".h-OutlineLevel", h.OutlineLevel);
+      setIf(".h-NumberFormat", h.NumberFormat);
+      setIf(".h-NumberStyle", h.NumberStyle);
+      setIf(".h-NumberPosition", h.NumberPosition);
+      setIf(".h-Alignment", h.Alignment);
+      setIf(".h-TextPosition", h.TextPosition);
+      setIf(".h-TabPosition", h.TabPosition);
+      setIf(".h-ResetOnHigher", h.ResetOnHigher);
+      setIf(".h-StartAt", h.StartAt);
+      setIf(".h-TrailingCharacter", h.TrailingCharacter);
 
-      // 设置字体属性
-      block.querySelector(".h-FontNameFarEast").value = h.Font.NameFarEast;
-      block.querySelector(".h-FontNameAscii").value = h.Font.NameAscii;
-      block.querySelector(".h-FontNameOther").value = h.Font.NameOther;
-      block.querySelector(".h-FontSize").value = h.Font.Size;
-      block.querySelector(".h-FontColor").value = h.Font.Color;
-      block.querySelector(".h-FontBold").checked = h.Font.Bold;
-      block.querySelector(".h-FontItalic").checked = h.Font.Italic;
-      block.querySelector(".h-FontUnderline").checked = h.Font.Underline;
-      
-      // 添加东方字体选择框的 change 事件监听器
-      block.querySelector(".h-FontNameFarEast").addEventListener("change", e => {
-        headings[idx].Font.NameFarEast = e.target.value;
-      });
+      setIf(".h-FontNameFarEast", h.Font.NameFarEast);
+      setIf(".h-FontNameAscii", h.Font.NameAscii);
+      setIf(".h-FontNameOther", h.Font.NameOther);
+      setIf(".h-FontSize", h.Font.Size);
+      const colorEl = block.querySelector(".h-FontColor"); if (colorEl) colorEl.value = h.Font.Color || "#000000";
+      const boldEl = block.querySelector(".h-FontBold"); if (boldEl) boldEl.checked = !!h.Font.Bold;
+      const italicEl = block.querySelector(".h-FontItalic"); if (italicEl) italicEl.checked = !!h.Font.Italic;
+      const ulEl = block.querySelector(".h-FontUnderline"); if (ulEl) ulEl.checked = !!h.Font.Underline;
 
-      // 设置段落格式
-      block.querySelector(".h-RightIndent").value = h.ParagraphFormat.RightIndent;
-      block.querySelector(".h-SpaceBefore").value = h.ParagraphFormat.SpaceBefore;
-      block.querySelector(".h-SpaceAfter").value = h.ParagraphFormat.SpaceAfter;
-      block.querySelector(".h-LineSpacing").value = h.ParagraphFormat.LineSpacing;
+      setIf(".h-RightIndent", h.ParagraphFormat.RightIndent);
+      setIf(".h-SpaceBefore", h.ParagraphFormat.SpaceBefore);
+      setIf(".h-SpaceAfter", h.ParagraphFormat.SpaceAfter);
+      setIf(".h-LineSpacing", h.ParagraphFormat.LineSpacing);
 
-      // 添加事件监听器
-      block.querySelector(".h-OutlineLevel").addEventListener("change", e => headings[idx].OutlineLevel = parseInt(e.target.value));
-      block.querySelector(".h-NumberFormat").addEventListener("input", e => headings[idx].NumberFormat = e.target.value);
-      block.querySelector(".h-NumberStyle").addEventListener("input", e => headings[idx].NumberStyle = parseInt(e.target.value));
-      block.querySelector(".h-NumberPosition").addEventListener("input", e => headings[idx].NumberPosition = parseInt(e.target.value));
-      block.querySelector(".h-Alignment").addEventListener("input", e => headings[idx].Alignment = parseInt(e.target.value));
-      block.querySelector(".h-TextPosition").addEventListener("input", e => headings[idx].TextPosition = parseInt(e.target.value));
-      block.querySelector(".h-TabPosition").addEventListener("input", e => headings[idx].TabPosition = parseInt(e.target.value));
-      block.querySelector(".h-ResetOnHigher").addEventListener("input", e => headings[idx].ResetOnHigher = parseInt(e.target.value));
-      block.querySelector(".h-StartAt").addEventListener("input", e => headings[idx].StartAt = parseInt(e.target.value));
-      block.querySelector(".h-TrailingCharacter").addEventListener("change", e => headings[idx].TrailingCharacter = parseInt(e.target.value));
-      block.querySelector(".h-NumberStyle").addEventListener("change", e => headings[idx].NumberStyle = parseInt(e.target.value));
-      block.querySelector(".h-Alignment").addEventListener("change", e => headings[idx].Alignment = parseInt(e.target.value));
+      // 添加事件监听（加了存在性保护）
+      const bind = (sel, ev, fn) => { const el = block.querySelector(sel); if (el) el.addEventListener(ev, fn); };
+      bind(".h-OutlineLevel", "change", e => headings[idx].OutlineLevel = parseInt(e.target.value));
+      bind(".h-NumberFormat", "input", e => headings[idx].NumberFormat = e.target.value);
+      bind(".h-NumberStyle", "change", e => headings[idx].NumberStyle = parseInt(e.target.value));
+      bind(".h-NumberPosition", "input", e => headings[idx].NumberPosition = parseInt(e.target.value || 0));
+      bind(".h-Alignment", "change", e => headings[idx].Alignment = parseInt(e.target.value));
+      bind(".h-TextPosition", "input", e => headings[idx].TextPosition = parseInt(e.target.value || 0));
+      bind(".h-TabPosition", "input", e => headings[idx].TabPosition = parseInt(e.target.value || 0));
+      bind(".h-ResetOnHigher", "input", e => headings[idx].ResetOnHigher = parseInt(e.target.value || 0));
+      bind(".h-StartAt", "input", e => headings[idx].StartAt = parseInt(e.target.value || 1));
+      bind(".h-TrailingCharacter", "change", e => headings[idx].TrailingCharacter = parseInt(e.target.value));
 
-      // 字体事件监听器
-      block.querySelector(".h-FontNameFarEast").addEventListener("input", e => headings[idx].Font.NameFarEast = e.target.value);
-      block.querySelector(".h-FontNameAscii").addEventListener("input", e => headings[idx].Font.NameAscii = e.target.value);
-      block.querySelector(".h-FontNameOther").addEventListener("input", e => headings[idx].Font.NameOther = e.target.value);
-      block.querySelector(".h-FontSize").addEventListener("input", e => headings[idx].Font.Size = parseInt(e.target.value));
-      block.querySelector(".h-FontColor").addEventListener("input", e => headings[idx].Font.Color = e.target.value);
-      block.querySelector(".h-FontBold").addEventListener("change", e => headings[idx].Font.Bold = e.target.checked);
-      block.querySelector(".h-FontItalic").addEventListener("change", e => headings[idx].Font.Italic = e.target.checked);
-      block.querySelector(".h-FontUnderline").addEventListener("change", e => headings[idx].Font.Underline = e.target.checked);
-      
-      // 确保东方字体选择框的 change 事件监听器存在
-      block.querySelector(".h-FontNameFarEast").addEventListener("change", e => headings[idx].Font.NameFarEast = e.target.value);
-      block.querySelector(".h-FontNameAscii").addEventListener("change", e => headings[idx].Font.NameAscii = e.target.value);
-      block.querySelector(".h-FontNameOther").addEventListener("change", e => headings[idx].Font.NameOther = e.target.value);
+      bind(".h-FontNameFarEast", "change", e => headings[idx].Font.NameFarEast = e.target.value);
+      bind(".h-FontNameAscii", "change", e => headings[idx].Font.NameAscii = e.target.value);
+      bind(".h-FontNameOther", "change", e => headings[idx].Font.NameOther = e.target.value);
+      bind(".h-FontSize", "input", e => headings[idx].Font.Size = parseInt(e.target.value || headings[idx].Font.Size));
+      bind(".h-FontColor", "input", e => headings[idx].Font.Color = e.target.value);
+      bind(".h-FontBold", "change", e => headings[idx].Font.Bold = e.target.checked);
+      bind(".h-FontItalic", "change", e => headings[idx].Font.Italic = e.target.checked);
+      bind(".h-FontUnderline", "change", e => headings[idx].Font.Underline = e.target.checked);
 
-      // 段落格式事件监听器
-      block.querySelector(".h-RightIndent").addEventListener("input", e => headings[idx].ParagraphFormat.RightIndent = parseInt(e.target.value));
-      block.querySelector(".h-SpaceBefore").addEventListener("input", e => headings[idx].ParagraphFormat.SpaceBefore = parseInt(e.target.value));
-      block.querySelector(".h-SpaceAfter").addEventListener("input", e => headings[idx].ParagraphFormat.SpaceAfter = parseInt(e.target.value));
-      block.querySelector(".h-LineSpacing").addEventListener("input", e => headings[idx].ParagraphFormat.LineSpacing = parseFloat(e.target.value));
+      bind(".h-RightIndent", "input", e => headings[idx].ParagraphFormat.RightIndent = parseInt(e.target.value || 0));
+      bind(".h-SpaceBefore", "input", e => headings[idx].ParagraphFormat.SpaceBefore = parseInt(e.target.value || 0));
+      bind(".h-SpaceAfter", "input", e => headings[idx].ParagraphFormat.SpaceAfter = parseInt(e.target.value || 0));
+      bind(".h-LineSpacing", "input", e => headings[idx].ParagraphFormat.LineSpacing = parseFloat(e.target.value || headings[idx].ParagraphFormat.LineSpacing));
 
-      block.querySelector(".remove-btn").addEventListener("click", () => removeHeading(idx));
+      const removeBtn = block.querySelector(".remove-btn");
+      if (removeBtn) removeBtn.addEventListener("click", () => removeHeading(idx));
     });
   }
+
+  // --- 页眉奇偶页设置：加入空值检查 ---
   function handleOddEvenPagesSetting() {
     const oddEvenCheckbox = document.getElementById("OddAndEvenPagesHeaderFooter");
     const headerPrimaryLabel = document.getElementById("header-primary-label");
@@ -487,152 +590,189 @@
     const footerPrimaryLabel = document.getElementById("footer-primary-label");
     const footerEvenLabel = document.getElementById("footer-even-label");
     const footerUnifiedLabel = document.getElementById("footer-unified-label");
-    
+
     function toggleEvenPageSettings() {
-      if (oddEvenCheckbox.checked) {
-        // 显示奇偶页分别设置
-        headerPrimaryLabel.style.display = "block";
-        headerEvenLabel.style.display = "block";
-        headerUnifiedLabel.style.display = "none";
-        footerPrimaryLabel.style.display = "block";
-        footerEvenLabel.style.display = "block";
-        footerUnifiedLabel.style.display = "none";
+      if (oddEvenCheckbox && oddEvenCheckbox.checked) {
+        if (headerPrimaryLabel) headerPrimaryLabel.style.display = "block";
+        if (headerEvenLabel) headerEvenLabel.style.display = "block";
+        if (headerUnifiedLabel) headerUnifiedLabel.style.display = "none";
+        if (footerPrimaryLabel) footerPrimaryLabel.style.display = "block";
+        if (footerEvenLabel) footerEvenLabel.style.display = "block";
+        if (footerUnifiedLabel) footerUnifiedLabel.style.display = "none";
       } else {
-        // 显示统一设置
-        headerPrimaryLabel.style.display = "none";
-        headerEvenLabel.style.display = "none";
-        headerUnifiedLabel.style.display = "block";
-        footerPrimaryLabel.style.display = "none";
-        footerEvenLabel.style.display = "none";
-        footerUnifiedLabel.style.display = "block";
+        if (headerPrimaryLabel) headerPrimaryLabel.style.display = "none";
+        if (headerEvenLabel) headerEvenLabel.style.display = "none";
+        if (headerUnifiedLabel) headerUnifiedLabel.style.display = "block";
+        if (footerPrimaryLabel) footerPrimaryLabel.style.display = "none";
+        if (footerEvenLabel) footerEvenLabel.style.display = "none";
+        if (footerUnifiedLabel) footerUnifiedLabel.style.display = "block";
       }
     }
-    
-    // 初始设置
-    toggleEvenPageSettings();
-    
-    // 添加事件监听器
-    oddEvenCheckbox.addEventListener("change", toggleEvenPageSettings);
+
+    // 只在存在 checkbox 时绑定
+    if (oddEvenCheckbox) {
+      toggleEvenPageSettings();
+      oddEvenCheckbox.addEventListener("change", toggleEvenPageSettings);
+    }
   }
-  
-  function initHeaderTextHandlers() {
-    // 奇数页页眉文本类型选择处理
-    const headerPrimaryType = document.querySelector(".header-text-primary-type");
-    const headerPrimaryFixed = document.querySelector(".header-text-primary-fixed");
-    
-    headerPrimaryType.addEventListener("change", function() {
-      if (this.value === "fixed") {
-        headerPrimaryFixed.style.display = "inline-block";
+
+  // --- 页码同步：空值保护 ---
+  function handlePageNumberSync() {
+    const syncCheckbox = document.getElementById("page-number-sync");
+    const tocStyle = document.getElementById("toc-page-number-style");
+    const tocAlign = document.getElementById("toc-page-number-align");
+
+    function toggleSync() {
+      if (syncCheckbox && syncCheckbox.checked) {
+        if (tocStyle && tocStyle.parentElement) tocStyle.parentElement.style.display = "none";
+        if (tocAlign && tocAlign.parentElement) tocAlign.parentElement.style.display = "none";
+        const mainStyleEl = document.getElementById("main-page-number-style");
+        const mainAlignEl = document.getElementById("main-page-number-align");
+        if (mainStyleEl && tocStyle) tocStyle.value = mainStyleEl.value;
+        if (mainAlignEl && tocAlign) tocAlign.value = mainAlignEl.value;
       } else {
-        headerPrimaryFixed.style.display = "none";
+        if (tocStyle && tocStyle.parentElement) tocStyle.parentElement.style.display = "block";
+        if (tocAlign && tocAlign.parentElement) tocAlign.parentElement.style.display = "block";
       }
-    });
-    
-    // 偶数页页眉文本类型选择处理
-    const headerEvenType = document.querySelector(".header-text-even-type");
-    const headerEvenFixed = document.querySelector(".header-text-even-fixed");
-    
-    headerEvenType.addEventListener("change", function() {
-      if (this.value === "fixed") {
-        headerEvenFixed.style.display = "inline-block";
-      } else {
-        headerEvenFixed.style.display = "none";
-      }
-    });
-    
-    // 统一设置页眉文本类型选择处理
-    const headerUnifiedType = document.querySelector(".header-text-unified-type");
-    const headerUnifiedFixed = document.querySelector(".header-text-unified-fixed");
-    
-    headerUnifiedType.addEventListener("change", function() {
-      if (this.value === "fixed") {
-        headerUnifiedFixed.style.display = "inline-block";
-      } else {
-        headerUnifiedFixed.style.display = "none";
-      }
-    });
+    }
+
+    if (syncCheckbox) {
+      toggleSync();
+      syncCheckbox.addEventListener("change", toggleSync);
+      const mainStyle = document.getElementById("main-page-number-style");
+      const mainAlign = document.getElementById("main-page-number-align");
+      if (mainStyle) mainStyle.addEventListener("change", function() { if (syncCheckbox.checked && tocStyle) tocStyle.value = this.value; });
+      if (mainAlign) mainAlign.addEventListener("change", function() { if (syncCheckbox.checked && tocAlign) tocAlign.value = this.value; });
+    }
   }
-  
+
+  // --- 导出配置：对每个可能缺失的元素做保护并提供合理默认 ---
   function exportConfig() {
-    const oddEvenPages = document.getElementById("OddAndEvenPagesHeaderFooter").checked;
-    
+    const oddEvenPages = !!document.getElementById("OddAndEvenPagesHeaderFooter") && document.getElementById("OddAndEvenPagesHeaderFooter").checked;
+    const pageNumberSyncElem = document.getElementById("page-number-sync");
+    const pageNumberSync = pageNumberSyncElem ? pageNumberSyncElem.checked : false;
+
+    const header = {
+      font: (document.getElementById("header-font") && document.getElementById("header-font").value) || "宋体",
+      size: parseInt((document.getElementById("header-size") && document.getElementById("header-size").value) || "12"),
+      color: (document.getElementById("header-color") && document.getElementById("header-color").value) || "#000000",
+      bold: !!(document.getElementById("header-bold") && document.getElementById("header-bold").checked),
+      italic: !!(document.getElementById("header-italic") && document.getElementById("header-italic").checked),
+      borderStyle: (document.getElementById("header-border-style") && document.getElementById("header-border-style").value) || "0",
+      borderWidth: parseInt((document.getElementById("header-border-width") && document.getElementById("header-border-width").value) || "8")
+    };
+
+    const prefaceStyle = document.getElementById("preface-page-number-style");
+    const prefaceAlign = document.getElementById("preface-page-number-align");
+    const mainStyle = document.getElementById("main-page-number-style");
+    const mainAlign = document.getElementById("main-page-number-align");
+
     const config = {
       headings: headings,
-      header: {
-        font: document.getElementById("header-font").value,
-        size: parseInt(document.getElementById("header-size").value),
-        color: document.getElementById("header-color").value,
-        bold: document.getElementById("header-bold").checked,
-        italic: document.getElementById("header-italic").checked,
-        borderStyle: document.getElementById("header-border-style").value
-      },
+      header: header,
       footer: {
-        pageNumber: document.getElementById("page-number").value
+        pageNumber: (document.getElementById("page-number") && document.getElementById("page-number").value) || null,
+        pageNumberSync: pageNumberSync,
+        preface: {
+          style: prefaceStyle ? parseInt(prefaceStyle.value) : 0,
+          alignment: prefaceAlign ? parseInt(prefaceAlign.value) : 1
+        },
+        main: {
+          sectionStart: parseInt((document.getElementById("main-section-start") && document.getElementById("main-section-start").value) || "1"),
+          style: mainStyle ? parseInt(mainStyle.value) : 0,
+          alignment: mainAlign ? parseInt(mainAlign.value) : 1
+        },
+        toc: {
+          style: (document.getElementById("toc-page-number-style") && parseInt(document.getElementById("toc-page-number-style").value)) || 0,
+          alignment: (document.getElementById("toc-page-number-align") && parseInt(document.getElementById("toc-page-number-align").value)) || 1
+        },
+        font: {
+          nameFarEast: (document.getElementById("page-number-font-fareast") && document.getElementById("page-number-font-fareast").value) || "宋体",
+          nameAscii: (document.getElementById("page-number-font-ascii") && document.getElementById("page-number-font-ascii").value) || "Times New Roman",
+          size: parseInt((document.getElementById("page-number-font-size") && document.getElementById("page-number-font-size").value) || "12"),
+          color: (document.getElementById("page-number-font-color") && document.getElementById("page-number-font-color").value) || "#000000"
+        },
+        paragraph: {
+          alignment: (document.getElementById("page-number-paragraph-align") && parseInt(document.getElementById("page-number-paragraph-align").value)) || 1
+        }
       },
       section: {
         differentOddEven: oddEvenPages,
-        linkSections: document.getElementById("link-sections").checked
+        linkSections: !!(document.getElementById("link-sections") && document.getElementById("link-sections").checked),
+        breakType: parseInt((document.getElementById("section-break-type") && document.getElementById("section-break-type").value) || "2")
       },
-      pageSize: document.getElementById("page-size").value,
-      orientation: document.getElementById("orientation").value,
+      pageSize: (document.getElementById("page-size") && document.getElementById("page-size").value) || "A4",
+      orientation: (document.getElementById("orientation") && document.getElementById("orientation").value) || "portrait",
       margins: {
-        top: document.getElementById("margin-top").value,
-        bottom: document.getElementById("margin-bottom").value,
-        left: document.getElementById("margin-left").value,
-        right: document.getElementById("margin-right").value
+        top: (document.getElementById("margin-top") && document.getElementById("margin-top").value) || "",
+        bottom: (document.getElementById("margin-bottom") && document.getElementById("margin-bottom").value) || "",
+        left: (document.getElementById("margin-left") && document.getElementById("margin-left").value) || "",
+        right: (document.getElementById("margin-right") && document.getElementById("margin-right").value) || ""
       }
     };
-    // 根据是否启用奇偶页不同设置来决定如何导出页眉页脚文本
+
+    // 页眉页脚文本（区分奇偶或统一），有元素才读
     if (oddEvenPages) {
-      // 奇数页页眉设置
-      const headerPrimaryType = document.querySelector(".header-text-primary-type").value;
-      if (headerPrimaryType === "chapter") {
+      const hPrimaryType = document.querySelector(".header-text-primary-type");
+      const hEvenType = document.querySelector(".header-text-even-type");
+      config.header.primaryText = (hPrimaryType && hPrimaryType.value === "chapter") ? "chapter" : (document.querySelector(".header-text-primary-fixed") && document.querySelector(".header-text-primary-fixed").value) || "";
+      config.header.evenText = (hEvenType && hEvenType.value === "chapter") ? "chapter" : (document.querySelector(".header-text-even-fixed") && document.querySelector(".header-text-even-fixed").value) || "";
+      config.footer.primaryText = (document.getElementById("footer-text-primary") && document.getElementById("footer-text-primary").value) || "";
+      config.footer.evenText = (document.getElementById("footer-text-even") && document.getElementById("footer-text-even").value) || "";
+    } else {
+      const hUnifiedType = document.querySelector(".header-text-unified-type");
+      if (hUnifiedType && hUnifiedType.value === "chapter") {
         config.header.primaryText = "chapter";
-      } else {
-        config.header.primaryText = document.querySelector(".header-text-primary-fixed").value;
-      }
-      
-      // 偶数页页眉设置
-      const headerEvenType = document.querySelector(".header-text-even-type").value;
-      if (headerEvenType === "chapter") {
         config.header.evenText = "chapter";
       } else {
-        config.header.evenText = document.querySelector(".header-text-even-fixed").value;
+        config.header.primaryText = (document.querySelector(".header-text-unified-fixed") && document.querySelector(".header-text-unified-fixed").value) || "";
+        config.header.evenText = config.header.primaryText;
       }
-      
-      config.footer.primaryText = document.getElementById("footer-text-primary").value;
-      config.footer.evenText = document.getElementById("footer-text-even").value;
-    } else {
-      // 统一设置页眉
-      const headerUnifiedType = document.querySelector(".header-text-unified-type").value;
-      if (headerUnifiedType === "chapter") {
-        const unifiedHeaderText = "chapter";
-        config.header.primaryText = unifiedHeaderText;
-        config.header.evenText = unifiedHeaderText;
-      } else {
-        const unifiedHeaderText = document.querySelector(".header-text-unified-fixed").value;
-        config.header.primaryText = unifiedHeaderText;
-        config.header.evenText = unifiedHeaderText;
-      }
-      
-      const unifiedFooterText = document.getElementById("footer-text-unified").value;
-      config.footer.primaryText = unifiedFooterText;
-      config.footer.evenText = unifiedFooterText;
+      config.footer.primaryText = (document.getElementById("footer-text-unified") && document.getElementById("footer-text-unified").value) || "";
+      config.footer.evenText = config.footer.primaryText;
     }
-    
+
     const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "word_template_config.json";
     link.click();
   }
+
+  // --- 入口绑定 ---
   document.getElementById("add-heading-btn").addEventListener("click", () => addHeading());
-  document.getElementById("export-btn").addEventListener("click", exportConfig);
-  
-  // 初始化奇偶页设置监听器
+  const exportBtn = document.getElementById("export-btn");
+  if (exportBtn) exportBtn.addEventListener("click", exportConfig);
+
+  // 初始化功能（有空值保护）
   handleOddEvenPagesSetting();
-  initHeaderTextHandlers();
-  
+  handlePageNumberSync();
+  // initHeaderTextHandlers 里也可能引用不存在的元素，做保护调用
+  (function initHeaderTextHandlersSafe() {
+    const headerPrimaryType = document.querySelector(".header-text-primary-type");
+    const headerPrimaryFixed = document.querySelector(".header-text-primary-fixed");
+    if (headerPrimaryType && headerPrimaryFixed) {
+      headerPrimaryType.addEventListener("change", function() {
+        headerPrimaryFixed.style.display = this.value === "fixed" ? "inline-block" : "none";
+      });
+    }
+    const headerEvenType = document.querySelector(".header-text-even-type");
+    const headerEvenFixed = document.querySelector(".header-text-even-fixed");
+    if (headerEvenType && headerEvenFixed) {
+      headerEvenType.addEventListener("change", function() {
+        headerEvenFixed.style.display = this.value === "fixed" ? "inline-block" : "none";
+      });
+    }
+    const headerUnifiedType = document.querySelector(".header-text-unified-type");
+    const headerUnifiedFixed = document.querySelector(".header-text-unified-fixed");
+    if (headerUnifiedType && headerUnifiedFixed) {
+      headerUnifiedType.addEventListener("change", function() {
+        headerUnifiedFixed.style.display = this.value === "fixed" ? "inline-block" : "none";
+      });
+    }
+  })();
+
+  // 添加初始默认标题
   addHeading(defaultHeadingData1());
   addHeading(defaultHeadingData2());
   addHeading(defaultHeadingData3());

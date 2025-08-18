@@ -32,7 +32,7 @@ style1.Font.NameFarEast = "黑体"
 style1.Font.NameAscii = "Times New Roman"
 style1.Font.NameOther = "Times New Roman"
 style1.Font.Bold = False
-style1.Font.Size = 16
+style1.Font.Size = 30
 style1.Font.Color = 0x000000  # 黑色
 
 style1.ParagraphFormat.RightIndent = 0
@@ -91,7 +91,7 @@ style3.Font.NameFarEast = "宋体"
 style3.Font.NameAscii = "Times New Roman"
 style3.Font.NameOther = "Times New Roman"
 style3.Font.Bold = True
-style3.Font.Size = 14
+style3.Font.Size = 30
 
 style3.ParagraphFormat.RightIndent = 0
 style3.ParagraphFormat.SpaceBefore = 12
