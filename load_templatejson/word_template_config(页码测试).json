@@ -87,17 +87,40 @@
   ],
   "header": {
     "font": "宋体",
-    "size": 25,
+    "size": 12,
     "color": "#000000",
     "bold": false,
     "italic": false,
     "borderStyle": "7",
     "borderWidth": 4,
     "primaryText": "chapter",
-    "evenText": "西安电子科技大学"
+    "evenText": "xiandianz"
   },
   "footer": {
-    "pageNumber": "none",
+    "pageNumber": null,
+    "pageNumberSync": false,
+    "preface": {
+      "style": 1,
+      "alignment": 1
+    },
+    "main": {
+      "sectionStart": 1,
+      "style": 0,
+      "alignment": 1
+    },
+    "toc": {
+      "style": 1,
+      "alignment": 1
+    },
+    "font": {
+      "nameFarEast": "宋体",
+      "nameAscii": "Times New Roman",
+      "size": 12,
+      "color": "#000000"
+    },
+    "paragraph": {
+      "alignment": 1
+    },
     "primaryText": "",
     "evenText": ""
   },

@@ -3,19 +3,8 @@ import json
 import win32com.client as win32
 from constants.constants import *
 
-def load_template_from_json(json_path, docx_path):
-    # 读取JSON配置文件
-    with open(json_path, 'r', encoding='utf-8') as f:
-        config = json.load(f)
+def load_template_from_json(doc, config):
 
-    # 启动Word应用程序
-    word = win32.Dispatch('Word.Application')
-    word.Visible = False  # 可以设置为True来查看Word操作过程
-
-
-    # 打开文档
-    abs_doc_path = os.path.abspath(docx_path)
-    doc = word.Documents.Open(abs_doc_path)
 
     # 获取样式集合
     styles = doc.Styles
@@ -42,7 +31,7 @@ def load_template_from_json(json_path, docx_path):
         listLevel.StartAt = heading['StartAt']
 
         # 创建对应样式
-        style_name = f"my11标题 {level_index}"
+        style_name = f"my7标题 {level_index}"
 
         # 创建新样式
         style = styles.Add(style_name, WdStyleType.wdStyleTypeParagraph)
@@ -89,7 +78,6 @@ def load_template_from_json(json_path, docx_path):
     # doc.Save()
     # doc.Close()
 
-    print(f"成功应用配置到文档: {docx_path}")
 
 
 

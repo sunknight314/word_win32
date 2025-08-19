@@ -21,7 +21,7 @@ def configure_document_headers(doc):
     header_range.Fields.Add(
         Range=header_range,
         Type=WdFieldType.wdFieldEmpty,
-        Text=r'STYLEREF  "my6标题 1" \n ',  # \n开关显示标题编号
+        Text=r'STYLEREF  "my7标题 1" \n ',  # \n开关显示标题编号
         PreserveFormatting=True
     )
     header_range.Collapse(Direction=WdCollapseDirection.wdCollapseEnd)  # 移动光标到域结尾
@@ -32,7 +32,7 @@ def configure_document_headers(doc):
     header_range.Fields.Add(
         Range=header_range,
         Type=WdFieldType.wdFieldEmpty,
-        Text=r'STYLEREF  "my6标题 1" ',  # 无开关显示纯文本标题
+        Text=r'STYLEREF  "my7标题 1" ',  # 无开关显示纯文本标题
         PreserveFormatting=True
     )
 
