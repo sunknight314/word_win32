@@ -2,6 +2,7 @@ import os
 import win32com.client as win32
 import json
 from constants.constants import *
+from init.init import clear_footers_only
 from load_templatejson.insert_contents import insert_contents
 from load_templatejson.load_templatejson_set_list_style import load_template_from_json
 from load_templatejson.load_templatejson_set_section import insert_sectionBreak, configure_document_headers, \
@@ -26,11 +27,14 @@ load_template_from_json(doc, config)
 # 4. 插入分节符
 insert_sectionBreak(doc, config)
 
+# 5.清除页脚
+clear_footers_only(doc)
+
 # 5. 配置页眉页脚
 configure_document_headers(doc, config)
 configure_document_footers(doc, config)
 
 # 6. 插入目录
-# insert_contents(doc, config)
+insert_contents(doc, config)
 
 

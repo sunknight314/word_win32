@@ -13,7 +13,7 @@ def insert_contents(doc, config):
     title_range.Text = "目录"
     title_range.InsertParagraphAfter()
 
-    title_range.Style = "my7标题 1"
+    title_range.Style = "标题 1"
 
     title_range.ParagraphFormat.OutlineLevel = 5
 
@@ -27,11 +27,13 @@ def insert_contents(doc, config):
         UseHyperlinks=True
     )
 
-    doc.Fields.Update()
 
     toc.Range.Collapse(WdCollapseDirection.wdCollapseEnd)
     # 插入奇数页分节符（若当前已经在奇数页，Word 会跳到下一奇数页）
     toc.Range.InsertBreak(WdBreakType.wdSectionBreakOddPage)
+
+
+    doc.Fields.Update()
 
 
 if __name__ == "__main__":
@@ -40,7 +42,7 @@ if __name__ == "__main__":
     word.Visible = True  # 调试时建议可见，方便观察
 
     # 2. 打开文档（替换为你的路径）
-    doc_path = os.path.abspath("source_outlined.docx")
+    doc_path = os.path.abspath("content_test.docx")
     doc = word.Documents.Open(doc_path)
 
 
